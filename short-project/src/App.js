@@ -66,27 +66,31 @@ function App() {
   if (!isAuthenticated) {
     return (
       <div className="App">
+        <h1>Iniciar Sesión</h1>
         <div>
-          <h1>Iniciar Sesión</h1>
-          <div>
-            <label htmlFor="username">Usuario:</label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+          <div className="inputs-container">
+            <div className="input">
+              <label htmlFor="username">Usuario:</label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="input">
+              <label htmlFor="password">Contraseña:</label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button className="btn" onClick={handleLogin}>
+              Iniciar Sesión
+            </button>
           </div>
-          <div>
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button onClick={handleLogin}>Iniciar Sesión</button>
         </div>
       </div>
     );
@@ -94,7 +98,7 @@ function App() {
   return (
     <div className="App">
       <h1>Bienvenido, {MOCK_CREDENTIALS.username}!</h1>
-      <button onClick={handleLogout}>Cerrar Sesión</button>
+      <button className="btn" onClick={handleLogout}>Cerrar Sesión</button>
     </div>
   );
 }
