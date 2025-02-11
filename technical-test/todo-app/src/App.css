@@ -1,5 +1,13 @@
 .App {
+  box-sizing: border-box;
+  padding: 40px;
+  height: 100vh;
   text-align: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 .App-logo {
@@ -35,4 +43,54 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.input{
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputs-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn{
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px ;
+  background-color: #2098FB;
+  border-radius: 20px;
+  color: #1C1D20;
+}
+
+.btn-back{
+  background-color: #E06C75;
+}
+
+.btn-back:disabled{
+  background-color: #f9d7da;
+  color: #8891a4;
+}
+
+.tasksboard{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+  height: 100%;
+}
+
+.tasksboard-column{
+  border: 1px dotted #8891a4;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
 }

@@ -41,32 +41,37 @@ function App() {
   };
 
   return (
-  <div className="App">
-    <h1>Gestión de Tareas</h1>
-    <button
-      onClick={undo}
-      disabled={history.length === 0}
-    >
-      Deshacer
-    </button>
-    <div className="tasks">
-      {statuses.map((status) => (
-        <div
-          key={status}
-          className=""
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => onDrop(e, status)}
-        >
-          <h2 className="text-lg font-semibold mb-2">{status.toUpperCase()}</h2>
-          {tasks
-            .filter((task) => task.status === status)
-            .map((task) => (
-              <Task key={task.id} title={task.name} id={task.id} onDragStart={onDragStart} />
-            ))}
-        </div>
-      ))}
+    <div className="App">
+      <h1>Aplicación ToDo</h1>
+      <button className="btn btn-back" onClick={undo} disabled={history.length === 0}>
+        Deshacer
+      </button>
+      <div className="tasksboard">
+        {statuses.map((status) => (
+          <div
+            key={status}
+            className={`tasksboard-column ${status}`}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => onDrop(e, status)}
+          >
+            <h2 className="text-lg font-semibold mb-2">
+              {status.toUpperCase()}
+            </h2>
+            {tasks
+              .filter((task) => task.status === status)
+              .map((task) => (
+                <Task
+                  key={task.id}
+                  title={task.name}
+                  id={task.id}
+                  onDragStart={onDragStart}
+                />
+              ))}
+          </div>
+        ))}
+      </div>
     </div>
-  </div>);
+  );
 }
 
 export default App;
