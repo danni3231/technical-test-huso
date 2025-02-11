@@ -1,5 +1,10 @@
 .App {
+  padding: 40px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
 }
 
 .App-logo {
@@ -25,7 +30,8 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color
+  : #61dafb;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +41,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.result{
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.input{
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputs-container{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
