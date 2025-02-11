@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import Loader from "./Loader";
 import Card from "./Card";
-import "./InfiniteScrollList.js";
+import "./InfiniteScrollList.css";
 
 const InfiniteScrollList = ({ fetchItems }) => {
   const [items, setItems] = useState([]);
@@ -43,7 +43,7 @@ const InfiniteScrollList = ({ fetchItems }) => {
     <div className="infinite_scroll_container">
       <div className="infinite_scroll_list">
         {items.map((user, index) => {
-          return <Card key={index} image={user.image} name={user.name} />;
+          return <Card key={index} image={user.image} name={user.name} email={user.email} />;
         })}
       </div>
       {Loading && <Loader />}

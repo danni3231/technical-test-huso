@@ -1,13 +1,17 @@
 .card {
     cursor: pointer;
-    background: rgb(205, 108, 108);
+    background: #2098FB;
     border-radius: 20px;
-    margin: 2rem 5rem;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 20px 25px;
-    width: 250px;
+    padding: 24px;
+    width: fit-content;
     transition: all 0.3s ease;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
 }
 
 .card:hover {
@@ -15,25 +19,32 @@
 }
 
 .card_image {
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
 }
 
 .card_image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 100%;
 }
 
 .card_info {
-    margin-top: 1rem;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .card_info h2 {
-    margin-bottom: 10px;
-    color: black;
+    text-align: start;
+    color: #1C1D20;
+    margin: 0;
 }
 
 .card_info h3 {
-    color: #272727;
+    text-align: start;
+    color: #282C34;
+    margin: 0;
 }

@@ -1,6 +1,16 @@
 .infinite_scroll_list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     align-items: center;
-    justify-content: space-evenly;
+    gap: 24px;
+}
+
+.infinite_scroll_container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
 }

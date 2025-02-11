@@ -13,7 +13,7 @@ function App() {
       setTimeout(async () => {
         const response = await axios.get("https://randomuser.me/api/", {
           params: {
-            results: 5, // Número de usuarios por página
+            results: 8, // Número de usuarios por página
             page: page.current, // Página actual
             seed:"Daniel-rojas"
           },
@@ -25,6 +25,7 @@ function App() {
           id: user.login.uuid,
           name: `${user.name.first} ${user.name.last}`,
           image: user.picture.thumbnail,
+          email: user.email
         }));
 
         resolve(users);
