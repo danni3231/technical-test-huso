@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Loader from "./Loader";
 import Card from "./Card";
@@ -6,17 +6,20 @@ import "./InfiniteScrollList.js";
 
 const InfiniteScrollList = ({ fetchItems }) => {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [Loading, setLoading] = useState(false); 
+  const isFetching = useRef(false); 
 
   // Initial load and more data when making scroll
   const loadMore = async () => {
-    if (loading || !hasMore) return;
+    if (isFetching.current || !hasMore) return;
+    isFetching.current = true; 
     setLoading(true);
 
     const newItems = await fetchItems();
-    setItems((prevItems) => [...prevItems, ...newItems]);
+    await setItems((prevItems) => [...prevItems, ...newItems]);
     setHasMore(newItems.length > 0); // If new elements are not obtained, deactivate `hasmore`
+    isFetching.current = false; 
     setLoading(false);
   };
 
@@ -24,7 +27,7 @@ const InfiniteScrollList = ({ fetchItems }) => {
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
-      document.documentElement.offsetHeight - 100
+      document.documentElement.offsetHeight - 100 &&  !isFetching.current
     ) {
       loadMore();
     }
@@ -43,7 +46,7 @@ const InfiniteScrollList = ({ fetchItems }) => {
           return <Card key={index} image={user.image} name={user.name} />;
         })}
       </div>
-      {loading && <Loader />}
+      {Loading && <Loader />}
       {!hasMore && <p>No hay más elementos</p>}
     </div>
   );
