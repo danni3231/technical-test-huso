@@ -1,31 +1,40 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
-const MOCK_CREDENTIALS = {
-  username: "admin",
-  password: "password123",
-};
+const MOCK_CREDENTIALS = [
+  { username: "admin", password: "password123" },
+  { username: "JordyRodriguez", password: "123456" },
+  { username: "CarlosBravo", password: "qwerty" },
+];
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [timeoutId, setTimeoutId] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(60);
+  const intervalRef = useRef(null); ;
 
   // Read persistence when loading the application
   useEffect(() => {
-    const storedAuth = JSON.parse(localStorage.getItem("isAuthenticated"));
-    if (storedAuth) setIsAuthenticated(true);
+    const storedAuth = JSON.parse(localStorage.getItem("currentUser"));
+    if (storedAuth) {
+      setIsAuthenticated(true);
+      setCurrentUser(storedAuth);
+      resetSessionTimeout();
+    }
   }, []);
 
   // Handle authentication
   const handleLogin = () => {
-    if (
-      username === MOCK_CREDENTIALS.username &&
-      password === MOCK_CREDENTIALS.password
-    ) {
+    const user = MOCK_CREDENTIALS.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (user) {
       setIsAuthenticated(true);
-      localStorage.setItem("isAuthenticated", JSON.stringify(true));
+      setCurrentUser(user);
+      localStorage.setItem("currentUser", JSON.stringify(user));
       resetSessionTimeout();
     } else {
       alert("Credenciales incorrectas");
@@ -35,21 +44,34 @@ function App() {
   // Handle logout
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem("isAuthenticated");
-    clearTimeout(timeoutId);
+    setCurrentUser(null);
+    localStorage.removeItem("currentUser");
+    clearInterval(intervalRef.current);
+    intervalRef.current = null;
+    setTimeLeft(60);
   };
 
-  // Reiniciar el temporizador de sesión
-  const resetSessionTimeout = useCallback(() => {
-    clearTimeout(timeoutId); // Limpia el temporizador existente
-    const id = setTimeout(() => {
-      handleLogout();
-      alert("Sesión cerrada por inactividad.");
-    }, 60000); // 1 minuto de inactividad
-    setTimeoutId(id);
-  }, [timeoutId]);
+  // Restart the session timer
+  const resetSessionTimeout = () => {
+    clearInterval(intervalRef.current);
+    setTimeLeft(60);
+    
+    intervalRef.current = setInterval(() => {
+      setTimeLeft((prev) => {
+        
+        if (prev === 1) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+          handleLogout();
+          alert('Sesión cerrada por inactividad.');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
-  // Escuchar interacción del usuario
+  // Listen to user interaction
   useEffect(() => {
     if (isAuthenticated) {
       const handleUserActivity = () => resetSessionTimeout();
@@ -59,9 +81,10 @@ function App() {
       return () => {
         window.removeEventListener("mousemove", handleUserActivity);
         window.removeEventListener("keypress", handleUserActivity);
+        clearInterval(intervalRef.current);
       };
     }
-  }, [isAuthenticated, resetSessionTimeout]);
+  }, [isAuthenticated]);
 
   if (!isAuthenticated) {
     return (
@@ -97,8 +120,13 @@ function App() {
   }
   return (
     <div className="App">
-      <h1>Bienvenido, {MOCK_CREDENTIALS.username}!</h1>
-      <button className="btn" onClick={handleLogout}>Cerrar Sesión</button>
+      <h1>Bienvenido, {currentUser.username}!</h1>
+      <p>
+        Tiempo antes de cierre automático: <strong>{timeLeft}</strong> segundos
+      </p>
+      <button className="btn" onClick={handleLogout}>
+        Cerrar Sesión
+      </button>
     </div>
   );
 }
